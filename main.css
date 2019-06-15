@@ -3,15 +3,30 @@
 body {
 	font-family: "Montserrat", sans-serif;
 	font-size: 14px;
+	background: #fdf6ee;
+	color: #333;
 }
 
 h1 {
 	font-family: "Libre Baskerville", serif;
+	color: #e85c45;
+}
+
+a {
+	color: #333;
+}
+
+.container {
+	text-align: center;
 }
 
 .header,
 .footer {
 	max-width: 600px;
 	margin: auto;
-	text-align: center;
+}
+
+.grid-rect {
+	fill: none;
+	stroke: #333;
 }
