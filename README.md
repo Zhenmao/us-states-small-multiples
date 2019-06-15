@@ -1,6 +1,6 @@
 # [US States Small Multiples](https://zhenmao.github.io/us-states-small-multiples/)
 
-Employment rates annual averages for US states in small multiples
+Unemployment rates annual averages for US states in small multiples
 
 ### References
 
