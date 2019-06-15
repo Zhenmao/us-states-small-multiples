@@ -189,6 +189,63 @@ Promise.all([
 					gridMargin.top})`
 		);
 
+	// Region boundaries
+	const gRegion = g.append("g").attr("class", "regions");
+	gRegion
+		.append("path")
+		.attr("class", "region-boundaries")
+		.attr("d", () => {
+			const path = d3.path();
+			// west/midwest
+			path.moveTo(xGrid(3), yGrid(1));
+			path.lineTo(xGrid(3), height + margin.bottom);
+			// midwest/south
+			path.moveTo(xGrid(3), yGrid(5));
+			path.lineTo(xGrid(4), yGrid(5));
+			path.lineTo(xGrid(4), yGrid(4));
+			path.lineTo(xGrid(5), yGrid(4));
+			path.lineTo(xGrid(5), yGrid(3));
+			path.lineTo(xGrid(7), yGrid(3));
+			path.lineTo(xGrid(7), yGrid(2));
+			// south/northeast
+			path.moveTo(xGrid(7), yGrid(3));
+			path.lineTo(xGrid(10), yGrid(3));
+			return path.toString();
+		});
+
+	// Region labels
+	gRegion
+		.append("text")
+		.attr("text-anchor", "middle")
+		.attr("x", xGrid(1) + xGrid.step() / 2)
+		.attr("y", yGrid(5) + yGrid.step() / 2)
+		.attr("dy", "1em")
+		.text("WEST");
+
+	gRegion
+		.append("text")
+		.attr("text-anchor", "middle")
+		.attr("x", xGrid(4))
+		.attr("y", yGrid(0) + yGrid.step() / 2)
+		.attr("dy", "1em")
+		.text("MIDWEST");
+
+	gRegion
+		.append("text")
+		.attr("text-anchor", "middle")
+		.attr("x", xGrid(8) + xGrid.step() / 2)
+		.attr("y", yGrid(5) + yGrid.step() / 2)
+		.attr("dy", "1em")
+		.text("SOUTH");
+
+	gRegion
+		.append("text")
+		.attr("text-anchor", "middle")
+		.attr("x", xGrid(8))
+		.attr("y", yGrid(0) + yGrid.step() / 2)
+		.attr("dy", "1em")
+		.text("NORTHEAST");
+
 	// Tooltip
 	const tooltip = gGrid
 		.append("g")

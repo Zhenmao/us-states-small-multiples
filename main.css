@@ -20,6 +20,10 @@ text {
 	fill: rgba(0, 0, 0, 0.7);
 }
 
+.regions text {
+	fill: rgba(0, 0, 0, 0.35);
+}
+
 .container {
 	text-align: center;
 }
@@ -42,6 +46,12 @@ text {
 
 .axis line {
 	stroke: rgba(0, 0, 0, 0.35);
+}
+
+.region-boundaries {
+	fill: none;
+	stroke: rgba(0, 0, 0, 0.35);
+	stroke-dasharray: 4;
 }
 
 .tooltip-text {
