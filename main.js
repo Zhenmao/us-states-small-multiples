@@ -16,12 +16,13 @@ Promise.all([
 			return values;
 		}, [])
 	}));
-	console.log(data);
+
+	const years = data[0].values.map(d => d[0]);
 
 	////////////////////////////////////////////////////////////
 	//// Setup /////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////
-	const margin = { top: 8, right: 8, bottom: 32, left: 56 };
+	const margin = { top: 8, right: 16, bottom: 24, left: 24 };
 	const gridWidth = 80;
 	const gridHeight = 80;
 	const gridMargin = { top: 20, right: 4, bottom: 4, left: 4 };
@@ -46,7 +47,7 @@ Promise.all([
 
 	const x = d3
 		.scalePoint()
-		.domain(data[0].values.map(d => d[0]))
+		.domain(years)
 		.range([0, smallWidth]);
 
 	const y = d3
@@ -87,7 +88,11 @@ Promise.all([
 
 	const gGrid = grid
 		.append("g")
-		.attr("transform", `translate(${gridMargin.left},${gridMargin.top})`);
+		.style("pointer-events", "all")
+		.attr("transform", `translate(${gridMargin.left},${gridMargin.top})`)
+		.on("mousemove", moved)
+		.on("mouseenter", entered)
+		.on("mouseleave", left);
 
 	// State abbreviation
 	gGrid
@@ -183,4 +188,47 @@ Promise.all([
 				`translate(${xGrid(d.x) + gridMargin.left},${yGrid(d.y) +
 					gridMargin.top})`
 		);
+
+	// Tooltip
+	const tooltip = gGrid
+		.append("g")
+		.style("pointer-events", "none")
+		.style("display", "none");
+
+	tooltip
+		.append("circle")
+		.attr("class", "tooltip-circle")
+		.attr("r", 3);
+
+	tooltip
+		.append("text")
+		.attr("class", "tooltip-text")
+		.attr("x", 2)
+		.attr("y", -2);
+
+	////////////////////////////////////////////////////////////
+	//// Interactions //////////////////////////////////////////
+	////////////////////////////////////////////////////////////
+	function moved() {
+		const xm = d3.mouse(this)[0];
+		const yearsXs = years.map(d => x(d));
+		const i1 = d3.bisectLeft(yearsXs, xm, 1);
+		const i0 = i1 - 1;
+		const i = xm - yearsXs[i0] > yearsXs[i1] - xm ? i1 : i0;
+
+		tooltip.attr(
+			"transform",
+			d => `translate(${x(d.values[i][0])},${y(d.values[i][1])})`
+		);
+
+		tooltip.select(".tooltip-text").text(d => d.values[i][1]);
+	}
+
+	function entered() {
+		tooltip.style("display", "inline");
+	}
+
+	function left() {
+		tooltip.style("display", "none");
+	}
 });
