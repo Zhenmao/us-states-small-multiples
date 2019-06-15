@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css?family=Libre+Baskerville:700|Montserrat&display=swap");
+
+body {
+	font-family: "Montserrat", sans-serif;
+	font-size: 14px;
+}
+
+h1 {
+	font-family: "Libre Baskerville", serif;
+}
+
+.header,
+.footer {
+	max-width: 600px;
+	margin: auto;
+	text-align: center;
+}
