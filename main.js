@@ -44,10 +44,31 @@ Promise.all([
 		.domain(d3.range(totalRows))
 		.range([0, height]);
 
+	const x = d3
+		.scalePoint()
+		.domain(data[0].values.map(d => d[0]))
+		.range([0, smallWidth]);
+
+	const y = d3
+		.scaleLinear()
+		.domain([
+			d3.min(data, d => d3.min(d.values, e => e[1])),
+			d3.max(data, d => d3.max(d.values, e => e[1]))
+		])
+		.range([smallHeight, 0])
+		.nice();
+
+	const line = d3
+		.line()
+		.x(d => x(d[0]))
+		.y(d => y(d[1]));
+
 	const svg = d3
 		.select(".chart")
 		.style("max-width", svgWidth)
 		.attr("viewBox", [0, 0, svgWidth, svgHeight]);
+
+	const defs = svg.append("defs");
 
 	const g = svg
 		.append("g")
@@ -56,6 +77,7 @@ Promise.all([
 	////////////////////////////////////////////////////////////
 	//// Render ////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////
+	// Grid
 	const grid = g
 		.selectAll(".grid")
 		.data(data)
@@ -67,6 +89,7 @@ Promise.all([
 		.append("g")
 		.attr("transform", `translate(${gridMargin.left},${gridMargin.top})`);
 
+	// State abbreviation
 	gGrid
 		.append("text")
 		.attr("class", "grid-title")
@@ -75,9 +98,89 @@ Promise.all([
 		.attr("text-anchor", "middle")
 		.text(d => d.abbr);
 
+	// Frame
 	gGrid
 		.append("rect")
 		.attr("class", "grid-rect")
 		.attr("width", smallWidth)
 		.attr("height", smallHeight);
+
+	// Line
+	gGrid
+		.append("path")
+		.attr("class", "grid-path")
+		.attr("d", d => line(d.values));
+
+	// Axis
+	defs
+		.append("g")
+		.attr("class", "axis")
+		.attr("id", "x-axis")
+		.attr("transform", "translate(-0.5,0)")
+		.call(d3.axisBottom(x))
+		.call(g => g.select(".domain").remove())
+		.call(g =>
+			g
+				.selectAll(".tick")
+				.filter((d, i, n) => i !== 0 && i !== n.length - 1)
+				.remove()
+		)
+		.call(g =>
+			g.selectAll(".tick").attr("text-anchor", (d, i) => (i ? "end" : "start"))
+		);
+
+	defs
+		.append("g")
+		.attr("class", "axis")
+		.attr("id", "y-axis")
+		.attr("transform", "translate(0,-0.5)")
+		.call(d3.axisLeft(y).ticks(4))
+		.call(g => g.select(".domain").remove());
+
+	// X axis is drawn for the last state of each column
+	g.append("g")
+		.selectAll(".x-axis")
+		.data(
+			d3
+				.nest()
+				.key(d => d.x)
+				.sortValues((a, b) => d3.descending(a.y, b.y))
+				.rollup(l => l[0])
+				.entries(data)
+				.map(d => d.value)
+		)
+		.join("g")
+		.attr("class", "x-axis")
+		.append("use")
+		.attr("xlink:href", "#x-axis")
+		.attr(
+			"transform",
+			d =>
+				`translate(${xGrid(d.x) + gridMargin.left},${yGrid(d.y) +
+					gridMargin.top +
+					smallHeight})`
+		);
+
+	// Y axis is drawn for the first state of each row
+	g.append("g")
+		.selectAll(".y-axis")
+		.data(
+			d3
+				.nest()
+				.key(d => d.y)
+				.sortValues((a, b) => d3.ascending(a.x, b.x))
+				.rollup(l => l[0])
+				.entries(data)
+				.map(d => d.value)
+		)
+		.join("g")
+		.attr("class", "y-axis")
+		.append("use")
+		.attr("xlink:href", "#y-axis")
+		.attr(
+			"transform",
+			d =>
+				`translate(${xGrid(d.x) + gridMargin.left},${yGrid(d.y) +
+					gridMargin.top})`
+		);
 });

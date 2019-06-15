@@ -4,7 +4,7 @@ body {
 	font-family: "Montserrat", sans-serif;
 	font-size: 14px;
 	background: #fdf6ee;
-	color: #333;
+	color: rgba(0, 0, 0, 0.7);
 }
 
 h1 {
@@ -13,7 +13,11 @@ h1 {
 }
 
 a {
-	color: #333;
+	color: rgba(0, 0, 0, 0.7);
+}
+
+text {
+	fill: rgba(0, 0, 0, 0.7);
 }
 
 .container {
@@ -28,5 +32,14 @@ a {
 
 .grid-rect {
 	fill: none;
-	stroke: #333;
+	stroke: rgba(0, 0, 0, 0.35);
+}
+
+.grid-path {
+	fill: none;
+	stroke: #e85c45;
+}
+
+.axis line {
+	stroke: rgba(0, 0, 0, 0.35);
 }
