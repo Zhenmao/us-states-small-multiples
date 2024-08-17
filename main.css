@@ -1,63 +1,64 @@
 @import url("https://fonts.googleapis.com/css?family=Libre+Baskerville:700|Montserrat&display=swap");
 
 body {
-	font-family: "Montserrat", sans-serif;
-	font-size: 14px;
-	background: #fdf6ee;
-	color: rgba(0, 0, 0, 0.7);
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  background: #fdf6ee;
+  color: rgba(0, 0, 0, 0.7);
+  margin: 0;
 }
 
 h1 {
-	font-family: "Libre Baskerville", serif;
-	color: #e85c45;
+  font-family: "Libre Baskerville", serif;
+  color: #e85c45;
 }
 
 a {
-	color: rgba(0, 0, 0, 0.7);
+  color: rgba(0, 0, 0, 0.7);
 }
 
 text {
-	fill: rgba(0, 0, 0, 0.7);
+  fill: rgba(0, 0, 0, 0.7);
 }
 
 .regions text {
-	fill: rgba(0, 0, 0, 0.35);
+  fill: rgba(0, 0, 0, 0.35);
 }
 
 .container {
-	text-align: center;
+  text-align: center;
 }
 
 .header,
 .footer {
-	max-width: 600px;
-	margin: auto;
+  max-width: 600px;
+  margin: auto;
 }
 
 .grid-rect {
-	fill: none;
-	stroke: rgba(0, 0, 0, 0.35);
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.35);
 }
 
 .grid-path {
-	fill: none;
-	stroke: #e85c45;
+  fill: none;
+  stroke: #e85c45;
 }
 
 .axis line {
-	stroke: rgba(0, 0, 0, 0.35);
+  stroke: rgba(0, 0, 0, 0.35);
 }
 
 .region-boundaries {
-	fill: none;
-	stroke: rgba(0, 0, 0, 0.35);
-	stroke-dasharray: 4;
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.35);
+  stroke-dasharray: 4;
 }
 
 .tooltip-text {
-	font-size: 10px;
+  font-size: 10px;
 }
 
 .tooltip-circle {
-	fill: #e85c45;
+  fill: #e85c45;
 }
